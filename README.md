@@ -1,3 +1,5 @@
+![Rust](https://github.com/olivierdolle/wtii/workflows/Rust/badge.svg)
+
 # WTII
 A cli to draw who should do something next based on passed draws.
 It's called `wtii` which stands for `Whose turn is it?`.
