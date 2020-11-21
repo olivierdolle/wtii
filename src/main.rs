@@ -103,3 +103,11 @@ fn draw(user_map: &mut HashMap<String, u8>) -> Option<String> {
 
     Some(chosen_one)
 }
+
+#[test]
+fn test_add_user() {
+    let mut user_map = HashMap::<String, u8>::new();
+    add_user("olivier".into(), &mut user_map, Some(1));
+
+    assert_eq!(*user_map.get("olivier".into()).unwrap(), 1)
+}
