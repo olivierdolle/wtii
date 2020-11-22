@@ -17,10 +17,10 @@ enum SubCommand {
     Status(Status),
 }
 
-#[derive(Clap)]
+#[derive(Clap, Debug)]
 struct Add {
-    // TODO: add several users at once
-    user: String
+    #[clap(multiple=true)]
+    users: Vec<String>
 }
 
 #[derive(Clap)]
@@ -58,7 +58,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     match opts.subcmd {
         SubCommand::Add(t) => {
-            add_user(t.user, user_map, None);
+            for user in t.users {
+               add_user(user, user_map, None);
+            }
             println!("{:?}", user_map);
         }
         SubCommand::Draw(_) => {
@@ -81,7 +83,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 
 fn add_user(user: String, user_map: &mut HashMap<String, u8>, value: Option<u8>) {
-    user_map.insert(user, value.unwrap_or(0));
+    if user_map.contains_key(&user) {
+        println!("User {} already known", user);
+    } else {
+        user_map.insert(user, value.unwrap_or(0));
+    }
 }
 
 fn draw(user_map: &mut HashMap<String, u8>) -> Option<String> {
@@ -109,5 +115,9 @@ fn test_add_user() {
     let mut user_map = HashMap::<String, u8>::new();
     add_user("olivier".into(), &mut user_map, Some(1));
 
-    assert_eq!(*user_map.get("olivier".into()).unwrap(), 1)
+    assert_eq!(*user_map.get("olivier".into()).unwrap(), 1);
+
+    // Check that we don't override user value
+    add_user("olivier".into(), &mut user_map, Some(2));
+    assert_eq!(*user_map.get("olivier".into()).unwrap(), 1);
 }
