@@ -9,5 +9,5 @@ It's called `wtii` which stands for `Whose turn is it?`.
 - [ ] Add test
 - [ ] logging
 - [ ] better error / communication to user
-- [ ] Add CI with github actions
+- [x] Add CI with github actions
 - [ ] Add releases targeting MacOs and Windows
